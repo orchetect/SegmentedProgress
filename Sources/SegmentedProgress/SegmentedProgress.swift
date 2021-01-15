@@ -88,17 +88,21 @@ public struct SegmentedProgress<T: BinaryInteger> {
 		
 		self.segments = segments
 		self.lastSegmentValue = dblMinValue
-		calculateSegmentInterval() // must call this here since segmets didSet won't trigger from init
+		calculateSegmentInterval() // must call this here since segments didSet won't trigger from init
 		
 		self.roundedToPlaces = roundedToPlaces
 		
 	}
 	
-	/// Internal: Utility function.
-	private func roundedPercentageString(_ number: Double, toPlaces: Int) -> String {
-		
-		String(format: "%.\(toPlaces)f", number) + "%"
-		
-	}
+}
+
+/// Internal: Utility function.
+internal func roundedPercentageString(_ number: Double, toPlaces: Int) -> String {
+	
+	// sanitize inputs
+	let toPlaces = min(max(0, toPlaces), 100)
+	
+	// Foundation method:
+	return String(format: "%.\(toPlaces)f", number) + "%"
 	
 }
